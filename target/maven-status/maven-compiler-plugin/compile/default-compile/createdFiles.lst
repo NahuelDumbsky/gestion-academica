@@ -1,0 +1,12 @@
+com\poo\act9poo\repositories\InscriptionRepository.class
+com\poo\act9poo\Actividad9pooApplication.class
+com\poo\act9poo\services\StudentService.class
+com\poo\act9poo\repositories\StudentRepository.class
+com\poo\act9poo\repositories\CourseRepository.class
+com\poo\act9poo\controllers\CourseController.class
+com\poo\act9poo\services\CourseService.class
+com\poo\act9poo\services\InscriptionService.class
+com\poo\act9poo\entities\Inscription.class
+com\poo\act9poo\entities\Course.class
+com\poo\act9poo\controllers\StudentController.class
+com\poo\act9poo\entities\Student.class
