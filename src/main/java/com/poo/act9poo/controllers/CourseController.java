@@ -7,7 +7,11 @@ import com.poo.act9poo.services.CourseService;
 import com.poo.act9poo.services.InscriptionService;
 import com.poo.act9poo.services.StudentService;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +45,42 @@ public class CourseController {
                 })
                 .collect(Collectors.toList());
     }
+    
+@GetMapping("/courses/{course_id}")
+public ResponseEntity<Object> getCourseById(@PathVariable("course_id") String courseIdStr) {
+    try {
+        int courseId = extractId(courseIdStr);
+
+        // Buscar el curso por ID
+        Course course = null;
+        List<Course> courses = courseService.findAll();
+        for (Course c : courses) {
+            if (c.getCourseId() == courseId) {
+                course = c;
+                break;
+            }
+        }
+        if (course == null) {
+            throw new RuntimeException("Course not found");
+        }
+
+        HashMap<String, Object> courseData = new HashMap<>();
+        courseData.put("courseId", "course" + course.getCourseId());
+        courseData.put("courseName", course.getCourseName());
+        courseData.put("description", course.getDescription());
+        List<String> students = course.getStudentsInscriptions().stream()
+                .map(inscription -> "student" + inscription.getStudent().getStudentId())
+                .collect(Collectors.toList());
+        courseData.put("students", students);
+
+        return new ResponseEntity<>(courseData, HttpStatus.OK);
+
+    } catch (RuntimeException e) {
+        HashMap<String, String> error = new HashMap<>();
+        error.put("error", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+}
 
     @PostMapping("/courses/{course_id}/enroll/{student_id}")
     public String enrollStudent(@PathVariable("course_id") String courseIdStr, @PathVariable("student_id") String studentIdStr) {
@@ -170,7 +210,7 @@ public class CourseController {
         return false; // Si no encontramos ninguna inscripcion que coincida, retornamos falso
     }
 
-   private int extractId(String idString) {
+    private int extractId(String idString) {
         if (idString.matches("^student\\d+$")) {
             return Integer.parseInt(idString.replace("student", ""));
         } else if (idString.matches("^course\\d+$")) {
