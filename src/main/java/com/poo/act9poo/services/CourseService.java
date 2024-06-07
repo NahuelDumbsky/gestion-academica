@@ -23,4 +23,5 @@ public class CourseService {
     public void deleteById(String courseId) {
         courseRepository.deleteById(courseId);
     }
+
 }
