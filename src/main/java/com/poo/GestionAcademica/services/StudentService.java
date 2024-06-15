@@ -1,10 +1,12 @@
 package com.poo.GestionAcademica.services;
 
-import com.poo.GestionAcademica.entities.Student;
-import com.poo.GestionAcademica.repositories.StudentRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.poo.GestionAcademica.entities.Student;
+import com.poo.GestionAcademica.repositories.StudentRepository;
 
 @Service
 public class StudentService {
@@ -23,6 +25,10 @@ public class StudentService {
     public Student findById(int studentId) {
         return studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found "));
+    }
+
+    public Student updateStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     public void deleteById(int studentId) {
