@@ -40,7 +40,7 @@ public class Inscription {
     }
 
     public Student getStudent() {
-        return student;
+        return this.student;
     }
 
     public void setStudent(Student student) {

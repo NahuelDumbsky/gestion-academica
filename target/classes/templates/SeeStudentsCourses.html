@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Estudiantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
+    <a class="navbar-brand" href="/"> Volver a Gestion Academica</a>
+    <a class="navbar-brand" href="/cursos"> Volver a Cursos</a>
+</nav>
+<div class="container">
+    <div class="row">
+        <h1>Lista de Estudiantes</h1>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.firstName}">Nombre</td>
+                <td th:text="${student.lastName}">Apellido</td>
+                <td>
+                    <form th:action="@{|/courses/${course.courseId}/enroll/${student.studentId}|}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>            
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+</body>
+
+</html>

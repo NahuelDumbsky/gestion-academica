@@ -17,10 +17,10 @@ public class StudentCRUDController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping({"/estudiantes", "/"})
+    @GetMapping({"/estudiantes"})
     public String listarEstudiantes(Model model) {
         model.addAttribute("students", studentService.findAll());
-        return "index"; // Retorna al archivo index.html
+        return "students"; // Retorna al archivo index.html
     }
 
     @GetMapping("/estudiantes/nuevo")
