@@ -1,14 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Inicio</title>
-        <meta charset="UTF-8"/>
-    </head>
-    <body>
-        <h1>Student Gestion</h1>
-        <a href="/students">students</a>
-        <br/>
-        <a href="/courses">courses</a>
-        <br/>
-    </body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Student Gestion</h1>
+        <div id="cards-container">
+            <a href="/students">
+                <div class="cards">
+                    <div class="cards-info">
+                        <img src="" th:src="@{/img/person-icon.png}" class="cards-img">
+                        <p class="cards-text">Students</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/courses">
+                <div class="cards">
+                    <div class="cards-info">
+                        <img src="" th:src="@{/img/courses-icon.png}" class="cards-img">
+                        <p class="cards-text">Courses</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+</body>
 </html>
