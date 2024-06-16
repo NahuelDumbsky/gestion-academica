@@ -28,12 +28,14 @@
             <tr th:each="student : ${students}">
                 <td th:text="${student.firstName}">Nombre</td>
                 <td th:text="${student.lastName}">Apellido</td>
-                <td>
-                    <form th:action="@{|/courses/${course.courseId}/enroll/${student.studentId}|}" method="post">
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</button>
-                    </form>
-                </td>
+            <td>
+<!--             <form th:action="@{/cursos/{courseId}/borrar/{studentId}(courseId=${course.courseId}, studentId=${student.studentId})}" method="post"> 
+                    <input type="hidden" name="_method" value="post" />
+                      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+-->                   <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante del curso?');" class="btn btn-danger">Eliminar</button>
+                </form>
+              
+            </td>
             </tr>            
         </tbody>
         <tfoot>
