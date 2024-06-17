@@ -1,8 +1,14 @@
 package com.poo.GestionAcademica.controllers;
 
+import com.poo.GestionAcademica.entities.Course;
+import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
+import com.poo.GestionAcademica.services.CourseService;
+import com.poo.GestionAcademica.services.InscriptionService;
 import com.poo.GestionAcademica.services.StudentService;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.ui.Model;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -17,6 +23,12 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private InscriptionService inscriptionService;
 
     @GetMapping("/students")
     public List<List<Object>> getAllStudents() {
@@ -73,5 +85,38 @@ public class StudentController {
         } else {
             throw new RuntimeException("Error en ingreso de id");
         }
+    }
+
+    @DeleteMapping("/{courseId}/borrar/{studentId}")
+    public String bajaEstudianteDeCurso(@PathVariable("courseId") int courseId,
+                                        @PathVariable("studentId") int studentId,
+                                        Model model) {
+        Student estudianteaux = studentService.findById(studentId);
+        Course cursoaux = courseService.findById(courseId);
+
+        // Buscar la inscripción del estudiante en el curso
+        Inscription inscriptionToRemove = inscriptionService.findInscriptionByStudentIdAndCourseId(studentId, courseId);
+
+        // Verificar si la inscripción existe antes de intentar eliminarla
+        if (inscriptionToRemove == null) {
+            throw new RuntimeException("Inscription not found");
+        }
+
+        // Remover la inscripción del estudiante en el curso
+        cursoaux.getStudentsInscriptions().remove(inscriptionToRemove);
+        estudianteaux.getInscriptions().remove(inscriptionToRemove);
+
+        // Eliminar la inscripción de la base de datos
+        inscriptionService.deleteById(inscriptionToRemove.getInscriptionId());
+
+        // Guardar los cambios en estudiantes y cursos
+        studentService.save(estudianteaux);
+        courseService.save(cursoaux);
+
+        model.addAttribute("student", estudianteaux);
+        model.addAttribute("courseId", courseId);
+
+        // Redirigir a la página de estudiantes del curso
+        return "redirect:/cursos/estudiantes/" + courseId;
     }
 }

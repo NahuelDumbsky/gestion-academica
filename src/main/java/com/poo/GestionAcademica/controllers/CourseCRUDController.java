@@ -2,7 +2,6 @@ package com.poo.GestionAcademica.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
@@ -82,13 +80,14 @@ public class CourseCRUDController {
         }
         // Agregar estudiantes al modelo
         model.addAttribute("students", students);
+        model.addAttribute("courseId", course.getCourseId());
 
         return "SeeStudentsCourses"; // Redirige a la lista de estudiantes
     }
 
     // Método para eliminar un estudiante de un curso
     @DeleteMapping("/cursos/estudiantes/{courseId}/borrar/{studentId}")
-    public String bajaEstudianteDeCurso(@PathVariable("courseId") int courseId, @PathVariable("studentId") int studentId) {
+    public String bajaEstudianteDeCurso(@PathVariable("courseId") int courseId, @PathVariable("studentId") int studentId, Model model) {
         Student estudianteaux = studentService.findById(studentId);
         Course cursoaux = courseService.findById(courseId);
 
@@ -110,6 +109,9 @@ public class CourseCRUDController {
         // Guardar los cambios en estudiantes y cursos
         studentService.save(estudianteaux);
         courseService.save(cursoaux);
+
+        model.addAttribute("student", estudianteaux);
+        model.addAttribute("courseId", courseId); // Asegúrate de tener esta línea si necesitas acceder a course en la plantilla
 
         // Redirigir a la página de estudiantes del curso
         return "redirect:/cursos/estudiantes/" + courseId;
