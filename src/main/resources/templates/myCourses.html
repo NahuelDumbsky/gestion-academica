@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
+    <a class="navbar-brand" href="/"> Volver a Gestion Academica</a>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <h1>Mis Cursos</h1>
+    </div>
+    <br/>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <!-- <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.courseName}">Nombre</td>
+            <td th:text="${course.description}">Descripcion</td>
+            <td>
+                <button id="inscribirBtn" type="button" class="btn btn-info" th:onclick="'inscribirEstudiante(\'' + ${course.courseId} + '\')'" data-course-id="${course.courseId}">Inscribirse</button>
+                <button id="desinscribirBtn" type="button" class="btn btn-danger" th:onclick="'eliminarEstudiante(\'' + ${course.courseId} + '\')'">Desinscribirse</button>
+            </td>            
+        </tr>
+        </tbody> -->
+
+        <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.courseName}">Nombre</td>
+                <td th:text="${course.description}">Descripción</td>
+                <td>
+                    <button id="inscribirBtn-\'' + ${course.courseId} + '\'" type="button" class="btn btn-info"
+                        th:onclick="'inscribirEstudiante(\'' + ${course.courseId} + '\')'"
+                        th:data-course-id="${course.courseId}">Inscribirse</button>
+                    <button id="desinscribirBtn" type="button" class="btn btn-danger"
+                        th:onclick="'eliminarEstudiante(\'' + ${course.courseId} + '\')'"
+                        >Desinscribirse</button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+
+<script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    // Tomar todos los botones de inscribir y desinscribir
+    var inscribirButtons = document.querySelectorAll('[id^="inscribirBtn-"]');
+    var desinscribirButtons = document.querySelectorAll('[id^="desinscribirBtn-"]');
+    // Iterar sobre cada botón de inscribir para verificar el estado de inscripción
+    inscribirButtons.forEach(function(inscribirBtn) {
+        var courseId = inscribirBtn.getAttribute('data-course-id');
+        var url = '/courses/' + courseId + '/isEnrolled/${studentId}'; // Ajusta el puerto si es diferente
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Error de red.');
+            })
+            .then(data => {
+                var isEnrolled = data.enrolled;
+                var desinscribirBtn = document.getElementById('desinscribirBtn-' + courseId);
+
+                if (isEnrolled) {
+                    inscribirBtn.style.display = 'none'; // Ocultar botón de inscripción
+                    desinscribirBtn.style.display = 'block'; // Mostrar botón de desinscripción
+                } else {
+                    inscribirBtn.style.display = 'block'; // Mostrar botón de inscripción
+                    desinscribirBtn.style.display = 'none'; // Ocultar botón de desinscripción
+                }
+            })
+            .catch(error => {
+                console.error('Error al verificar inscripción:', error);
+            });
+    });
+});
+
+
+    // Función para inscribir al estudiante
+    function inscribirEstudiante(courseId) {
+        var url = '/courses/' + courseId + '/inscribir/${studentId}'; // Ajusta el puerto si es diferente
+
+        fetch(url, {
+                method: 'POST'
+                // Aquí puedes añadir headers, body, etc., según sea necesario
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Actualizar los botones después de la inscripción
+                    var inscribirBtn = document.getElementById('inscribirBtn-' + courseId);
+                    var desinscribirBtn = document.getElementById('desinscribirBtn-' + courseId);
+
+                    inscribirBtn.style.display = 'none'; // Ocultar botón de inscripción
+                    desinscribirBtn.style.display = 'block'; // Mostrar botón de desinscripción
+                } else {
+                    throw new Error('Error al inscribir al estudiante.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al inscribir estudiante:', error);
+            });
+    }
+
+    // Función para desinscribir al estudiante
+    function eliminarEstudiante(courseId) {
+        var url = '/courses/' + courseId + '/eliminar/${studentId}'; // Ajusta el puerto si es diferente
+
+        fetch(url, {
+                method: 'DELETE'
+                // Aquí puedes añadir headers, body, etc., según sea necesario
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Actualizar los botones después de la desinscripción
+                    var inscribirBtn = document.getElementById('inscribirBtn-' + courseId);
+                    var desinscribirBtn = document.getElementById('desinscribirBtn-' + courseId);
+
+                    inscribirBtn.style.display = 'block'; // Mostrar botón de inscripción
+                    desinscribirBtn.style.display = 'none'; // Ocultar botón de desinscripción
+                } else {
+                    throw new Error('Error al desinscribir al estudiante.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al desinscribir estudiante:', error);
+            });
+    }
+
+</script>
+
+</body>
+</html>

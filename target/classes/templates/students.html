@@ -37,7 +37,7 @@
             <td th:text="${student.lastName}">Apellido</td>
             <td>
                 <a th:href="@{/estudiantes/editar/{id}(id=${student.studentId})}" class="btn btn-info">Editar</a>
-                <a th:href="@{/estudiantes/eliminar/{id}(id=${student.studentId})}" class="btn btn-danger">Eliminar</a>
+                <a th:href="@{/estudiantes/eliminar/{id}(id=${student.studentId})}" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         </tbody>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
@@ -118,4 +119,11 @@ public class CourseCRUDController {
         // Redirigir a la página de estudiantes del curso
         return "SeeStudentsCourses";
     }
+
+    @GetMapping("/miscursos")
+    public String misCursos(Model model) {
+        model.addAttribute("courses", courseService.findAll());
+        return "myCourses"; 
+    }
+
 }

@@ -6,9 +6,9 @@ import com.poo.GestionAcademica.entities.Student;
 import com.poo.GestionAcademica.services.CourseService;
 import com.poo.GestionAcademica.services.InscriptionService;
 import com.poo.GestionAcademica.services.StudentService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -159,6 +159,20 @@ public class CourseController {
             return "{\n\t" + e.getMessage() + "\n}";
         }
     }
+
+    @GetMapping("/courses/{course_id}/isEnrolled/{student_id}")
+    public ResponseEntity<Map<String, Boolean>> isEnrolled(
+            @PathVariable("course_id") int courseId,
+            @PathVariable("student_id") int studentId) {
+
+        // Buscar la inscripción del estudiante en el curso
+        Inscription inscription = inscriptionService.findInscriptionByStudentIdAndCourseId(studentId, courseId);
+
+        // Verifico y devuelvo la respuesta
+        boolean isEnrolled = inscription != null;
+        return ResponseEntity.ok().body(Collections.singletonMap("enrolled", isEnrolled));
+    }
+
 
     private int extractId(String idString) {
         if (idString.matches("^student\\d+$")) {

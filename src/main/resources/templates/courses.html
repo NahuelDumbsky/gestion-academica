@@ -38,7 +38,7 @@
                 <td>
                     <a th:href="@{/cursos/estudiantes/{id}(id=${course.courseId})}" class="btn btn-primary">Ver</a>
                     <a th:href="@{/cursos/editar/{id}(id=${course.courseId})}" class="btn btn-info">Editar</a>
-                    <a th:href="@{/cursos/eliminar/{id}(id=${course.courseId})}" class="btn btn-danger">Eliminar</a>
+                    <a th:href="@{/cursos/eliminar/{id}(id=${course.courseId})}" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
             </tbody>
