@@ -2,6 +2,7 @@ package com.poo.GestionAcademica.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
@@ -111,9 +113,9 @@ public class CourseCRUDController {
         courseService.save(cursoaux);
 
         model.addAttribute("student", estudianteaux);
-        model.addAttribute("courseId", courseId); // Asegúrate de tener esta línea si necesitas acceder a course en la plantilla
+        model.addAttribute("courseId", courseId);
 
         // Redirigir a la página de estudiantes del curso
-        return "redirect:/cursos/estudiantes/" + courseId;
+        return "SeeStudentsCourses";
     }
 }

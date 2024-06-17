@@ -24,16 +24,6 @@
             <th>Acciones</th>
         </tr>
         </thead>
-        <!-- <tr th:each="student : ${students}">
-            <td th:text="${student.firstName}">Nombre</td>
-            <td th:text="${student.lastName}">Apellido</td>
-            <td>
-                <form th:action="@{|/cursos/estudiantes/${courseId}/borrar/${student.studentId}|}" method="post">
-                    <input type="hidden" name="_method" value="delete" />
-                    <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</button>
-                </form>
-            </td>
-        </tr>            -->
         <tbody>
             <tr th:each="student : ${students}">
                 <td th:text="${student.firstName}">Nombre</td>
