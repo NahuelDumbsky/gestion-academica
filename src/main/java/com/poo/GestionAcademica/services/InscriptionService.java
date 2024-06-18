@@ -1,11 +1,12 @@
 package com.poo.GestionAcademica.services;
 
-import com.poo.GestionAcademica.entities.Inscription;
-import com.poo.GestionAcademica.repositories.InscriptionRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.poo.GestionAcademica.entities.Inscription;
+import com.poo.GestionAcademica.repositories.InscriptionRepository;
 
 @Service
 public class InscriptionService {
@@ -18,7 +19,7 @@ public class InscriptionService {
     }
 
     public Inscription findById(int inscriptionId) {
-        return inscriptionRepository.findById(inscriptionId).orElseThrow(null);
+        return inscriptionRepository.findById(inscriptionId).orElse(null);
     }
 
     public Inscription findInscriptionByStudentIdAndCourseId(int studentId, int courseId) {

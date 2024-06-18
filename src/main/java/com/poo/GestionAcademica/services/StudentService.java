@@ -24,7 +24,7 @@ public class StudentService {
 
     public Student findById(int studentId) {
         return studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found "));
+                .orElse(null);
     }
 
     public Student updateStudent(Student student) {

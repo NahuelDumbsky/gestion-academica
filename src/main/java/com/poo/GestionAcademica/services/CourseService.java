@@ -1,10 +1,12 @@
 package com.poo.GestionAcademica.services;
 
-import com.poo.GestionAcademica.entities.Course;
-import com.poo.GestionAcademica.repositories.CourseRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.poo.GestionAcademica.entities.Course;
+import com.poo.GestionAcademica.repositories.CourseRepository;
 
 @Service
 public class CourseService {
@@ -22,7 +24,7 @@ public class CourseService {
 
     public Course findById(int courseId){
         return courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found "));
+                .orElse(null);
     }
     
     public void deleteById(int courseId) {
