@@ -1,13 +1,16 @@
 package com.poo.GestionAcademica.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 public class Student {
@@ -15,7 +18,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
-    private String firstName;  
+    private String firstName;
     private String lastName;
     
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
@@ -61,5 +64,17 @@ public class Student {
 
     public void setInscriptions(List<Inscription> inscriptions) {
         this.inscriptions = inscriptions;
+    }
+
+    public List<Course> getStudentCourses(){
+        // Lista de inscripciones
+        List<Inscription> inscriptions = this.getInscriptions();
+        // Buscar sus cursos
+        List<Course> courses = new ArrayList<>();
+
+        for (Inscription inscription : inscriptions) {
+            courses.add(inscription.getCourse());
+        }
+        return courses;
     }
 }

@@ -1,8 +1,5 @@
 package com.poo.GestionAcademica.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
@@ -73,16 +69,8 @@ public class CourseCRUDController {
     @GetMapping("/cursos/estudiantes/{id}")
     public String listarEstudiante(@PathVariable("id") int id, Model model) {
         Course course = courseService.findById(id);
-        // Lista de inscripciones
-        List<Inscription> inscriptions = course.getStudentsInscriptions();
-        // Buscar sus estudiantes
-        List<Student> students = new ArrayList<>();
-
-        for (Inscription inscription : inscriptions) {
-            students.add(inscription.getStudent());
-        }
         // Agregar estudiantes al modelo
-        model.addAttribute("students", students);
+        model.addAttribute("students", course.getCourseStudents());
         model.addAttribute("courseId", course.getCourseId());
 
         return "SeeStudentsCourses"; // Redirige a la lista de estudiantes
@@ -119,11 +107,4 @@ public class CourseCRUDController {
         // Redirigir a la página de estudiantes del curso
         return "SeeStudentsCourses";
     }
-
-    @GetMapping("/miscursos")
-    public String misCursos(Model model) {
-        model.addAttribute("courses", courseService.findAll());
-        return "myCourses"; 
-    }
-
 }

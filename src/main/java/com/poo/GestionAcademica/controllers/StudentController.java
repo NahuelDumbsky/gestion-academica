@@ -1,5 +1,18 @@
 package com.poo.GestionAcademica.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
@@ -7,18 +20,7 @@ import com.poo.GestionAcademica.services.CourseService;
 import com.poo.GestionAcademica.services.InscriptionService;
 import com.poo.GestionAcademica.services.StudentService;
 
-import org.springframework.ui.Model;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/")
 public class StudentController {
 
     @Autowired

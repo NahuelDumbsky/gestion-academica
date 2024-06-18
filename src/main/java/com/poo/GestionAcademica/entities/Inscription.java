@@ -1,6 +1,7 @@
 package com.poo.GestionAcademica.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Inscription {
     }
     
     public int getInscriptionId() {
-        return inscriptionId;
+        return this.inscriptionId;
     }
 
     public void setInscriptionId(int inscriptionId) {
@@ -48,7 +49,7 @@ public class Inscription {
     }
 
     public Course getCourse() {
-        return course;
+        return this.course;
     }
 
     public void setCourse(Course course) {
