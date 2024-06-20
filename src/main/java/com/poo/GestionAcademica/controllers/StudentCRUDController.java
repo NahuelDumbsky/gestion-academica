@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.poo.GestionAcademica.APILOGS.LOGSController;
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
@@ -32,7 +34,7 @@ public class StudentCRUDController {
     @Autowired
     private InscriptionService inscriptionService;
 
-    @GetMapping({"/estudiantes"})
+    @GetMapping({ "/estudiantes" })
     public String listarEstudiantes(Model model) {
         model.addAttribute("students", studentService.findAll());
         return "students"; // Retorna al archivo index.html
@@ -73,6 +75,7 @@ public class StudentCRUDController {
     // Mostrar los cursos del estudiante y los cursos disponibles
     @GetMapping("estudiantes/miscursos/{id}")
     public String misCursos(@PathVariable("id") int id, Model model) {
+
         // Obtener el estudiante por su ID
         Student student = studentService.findById(id);
         // Obtener todos los cursos disponibles
@@ -91,9 +94,9 @@ public class StudentCRUDController {
         return "myCourses";
     }
 
-
     @PostMapping("estudiantes/miscursos/{studentId}/inscribir/{courseId}")
-    public String inscribirMisCursos(@PathVariable ("studentId")int studentId, @PathVariable("courseId") int courseId, Model model) {
+    public String inscribirMisCursos(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
+            Model model) {
 
         Student auxStudent = studentService.findById(studentId);
         Course auxCourse = courseService.findById(courseId);
@@ -118,14 +121,15 @@ public class StudentCRUDController {
         model.addAttribute("courses", studentCourses);
         model.addAttribute("availableCourses", availableCourses);
 
-        //actualizar tabla de estudiantes
+        // actualizar tabla de estudiantes
         model.addAttribute("studentId", studentId);
 
         return "myCourses";
     }
 
     @DeleteMapping("estudiantes/miscursos/{studentId}/darDeBaja/{courseId}")
-    public String desuscribirMisCursos(@PathVariable ("studentId")int studentId, @PathVariable("courseId") int courseId, Model model){
+    public String desuscribirMisCursos(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
+            Model model) {
         Student auxStudent = studentService.findById(studentId);
         Course auxCourse = courseService.findById(courseId);
 
@@ -155,10 +159,16 @@ public class StudentCRUDController {
         model.addAttribute("courses", studentCourses);
         model.addAttribute("availableCourses", availableCourses);
 
-        //actualizar tabla de estudiantes
+        // actualizar tabla de estudiantes
         model.addAttribute("studentId", studentId);
 
         return "myCourses";
     }
-    
+
+    @PostMapping("/estudiantes/actualizarLogs")
+    public String actualizarLogsEstudiantes(@RequestBody String entity) {
+        LOGSController logsController = new LOGSController();
+        logsController.findLogs(studentService.findAll());
+        return "students";
+    }
 }
