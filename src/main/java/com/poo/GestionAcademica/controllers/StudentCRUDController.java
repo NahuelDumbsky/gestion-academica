@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,7 +74,7 @@ public class StudentCRUDController {
     }
 
     // Mostrar los cursos del estudiante y los cursos disponibles
-    @GetMapping("estudiantes/miscursos/{id}")
+    @GetMapping("estudiantes/cursos/{id}")
     public String misCursos(@PathVariable("id") int id, Model model) {
 
         // Obtener el estudiante por su ID
@@ -91,10 +92,11 @@ public class StudentCRUDController {
         model.addAttribute("availableCourses", availableCourses);
         model.addAttribute("studentId", id);
 
-        return "myCourses";
+        return "StudentCourses";
     }
 
-    @PostMapping("estudiantes/miscursos/{studentId}/inscribir/{courseId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("estudiantes/cursos/{studentId}/inscribir/{courseId}")
     public String inscribirMisCursos(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
             Model model) {
 
@@ -124,10 +126,11 @@ public class StudentCRUDController {
         // actualizar tabla de estudiantes
         model.addAttribute("studentId", studentId);
 
-        return "myCourses";
+        return "StudentCourses";
     }
 
-    @DeleteMapping("estudiantes/miscursos/{studentId}/darDeBaja/{courseId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("estudiantes/cursos/{studentId}/darDeBaja/{courseId}")
     public String desuscribirMisCursos(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
             Model model) {
         Student auxStudent = studentService.findById(studentId);
@@ -162,7 +165,7 @@ public class StudentCRUDController {
         // actualizar tabla de estudiantes
         model.addAttribute("studentId", studentId);
 
-        return "myCourses";
+        return "StudentCourses";
     }
 
     @PostMapping("/estudiantes/actualizarLogs")

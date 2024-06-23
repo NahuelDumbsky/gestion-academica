@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -7,24 +8,51 @@
 </head>
 <body>
     <h1>Gestion Academica</h1>
-        <div id="cards-container">
-            <a href="/estudiantes">
-                <div class="cards">
-                    <div class="cards-info">
-                        <img src="" th:src="@{/img/person-icon.png}" class="cards-img">
-                        <p class="cards-text">Estudiantes</p>
-                    </div>
+    <div id="cards-container">
+        <a href="/estudiantes">
+            <div class="cards">
+                <div class="cards-info">
+                    <img src="" th:src="@{/img/person-icon.png}" class="cards-img">
+                    <p class="cards-text">Estudiantes</p>
                 </div>
-            </a>
-            <a href="/cursos">
-                <div class="cards">
-                    <div class="cards-info">
-                        <img src="" th:src="@{/img/courses-icon.png}" class="cards-img">
-                        <p class="cards-text">Cursos</p>
-                    </div>
+            </div>
+        </a>
+        <a href="/cursos">
+            <div class="cards">
+                <div class="cards-info">
+                    <img src="" th:src="@{/img/courses-icon.png}" class="cards-img">
+                    <p class="cards-text">Cursos</p>
                 </div>
-            </a>
-        </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Botón de Logout -->
+    <form id="logoutForm" action="/logout" method="post">
+        <button type="submit" class="logout-button">Cerrar sesión</button>
+    </form>
 </body>
 
+<script>
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        // Enviar una solicitud al servidor para invalidar la sesión actual
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/login'); // Cambia la URL según la configuración de tu aplicación
+
+        // Manejar la respuesta del servidor (opcionalmente puedes redirigir o mostrar un mensaje)
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Sesión cerrada exitosamente');
+                // Puedes redirigir a la página de inicio de sesión u otra página
+                window.location.href = '/login';
+            } else {
+                console.error('Error al cerrar sesión:', xhr.statusText);
+                // Manejar el error de cierre de sesión según sea necesario
+            }
+        };
+
+        // Enviar la solicitud
+        xhr.send();
+    });
+</script>
 </html>

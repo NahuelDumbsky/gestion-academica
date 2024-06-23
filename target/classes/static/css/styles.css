@@ -33,3 +33,15 @@
 }
 
 body {text-align: center;}
+
+/* Estilos específicos para el botón de logout */
+.logout-button {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

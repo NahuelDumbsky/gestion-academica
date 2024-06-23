@@ -1,6 +1,7 @@
 package com.poo.GestionAcademica.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -77,6 +78,7 @@ public class CourseCRUDController {
     }
 
     // Método para eliminar un estudiante de un curso
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/cursos/estudiantes/{courseId}/borrar/{studentId}")
     public String bajaEstudianteDeCurso(@PathVariable("courseId") int courseId, @PathVariable("studentId") int studentId, Model model) {
         Student estudianteaux = studentService.findById(studentId);

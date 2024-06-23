@@ -2,22 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Cursos</title>
+    <title>Cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+              <!-- Meta tags para CSRF -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
     <a class="navbar-brand" href="/"> Volver a Gestion Academica</a>
     <a class="navbar-brand" href="/estudiantes"> Volver a Estudiantes</a>
 </nav>
-
+<br/>
 <div class="container">
     <div class="row">
-        <h1>Mis Cursos</h1>
+        <h1>Inscripciones</h1>
     </div>
-    <br/>
-    <h2>Mis Cursos</h2>
+
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
@@ -70,10 +72,20 @@
 <script th:inline="javascript">
     function inscribirEstudiante(studentId, courseId) {
         if (confirm('¿Inscribir a la materia?')) {
-            var url = '/estudiantes/miscursos/' + studentId + '/inscribir/' + courseId;
+            var url = '/estudiantes/cursos/' + studentId + '/inscribir/' + courseId;
+
+            // Obtener el token CSRF desde el campo hidden en el formulario
+            var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+            var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
             // Configurar la solicitud POST con AJAX
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url, true);
+
+            // Añadir el token CSRF a las cabeceras de la solicitud
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+            xhr.withCredentials = true;
+            
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Redirigir a la página de estudiantes del curso después de eliminar
@@ -93,10 +105,20 @@
 <script th:inline="javascript">
     function darDeBajaEstudiante(studentId, courseId) {
         if (confirm('¿Dar de baja de la materia?')) {
-            var url = '/estudiantes/miscursos/' + studentId + '/darDeBaja/' + courseId;
+            var url = '/estudiantes/cursos/' + studentId + '/darDeBaja/' + courseId;
+            
+            // Obtener el token CSRF desde el campo hidden en el formulario
+            var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+            var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
             // Configurar la solicitud DELETE con AJAX
             var xhr = new XMLHttpRequest();
             xhr.open('DELETE', url, true);
+            
+            // Añadir el token CSRF a las cabeceras de la solicitud
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+            xhr.withCredentials = true;
+            
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Redirigir a la página de estudiantes del curso después de eliminar
