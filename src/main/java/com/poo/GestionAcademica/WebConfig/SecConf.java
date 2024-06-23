@@ -60,6 +60,7 @@ public class SecConf extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/courses/*/enroll/*");
+        web.ignoring().antMatchers("/courses/*/enroll/*"); // La direccion de enroll con metodos post y delete
+                                                                          // ignora las autorizaciones anteriores
     }
 }

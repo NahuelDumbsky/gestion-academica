@@ -38,7 +38,7 @@ public class StudentCRUDController {
     @GetMapping({ "/estudiantes" })
     public String listarEstudiantes(Model model) {
         model.addAttribute("students", studentService.findAll());
-        return "students"; // Retorna al archivo index.html
+        return "students";
     }
 
     @GetMapping("/estudiantes/nuevo")

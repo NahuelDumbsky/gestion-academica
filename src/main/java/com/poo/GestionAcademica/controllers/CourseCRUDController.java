@@ -32,7 +32,7 @@ public class CourseCRUDController {
     @GetMapping({ "/cursos" })
     public String listarEstudiantes(Model model) {
         model.addAttribute("courses", courseService.findAll());
-        return "courses"; // Retorna al archivo index.html
+        return "courses";
     }
 
     @GetMapping("/cursos/nuevo")

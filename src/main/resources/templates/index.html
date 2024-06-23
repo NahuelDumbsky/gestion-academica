@@ -37,17 +37,16 @@
     document.getElementById('logoutButton').addEventListener('click', function() {
         // Enviar una solicitud al servidor para invalidar la sesión actual
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/login'); // Cambia la URL según la configuración de tu aplicación
+        xhr.open('POST', '/login');
 
-        // Manejar la respuesta del servidor (opcionalmente puedes redirigir o mostrar un mensaje)
+        // Manejar la respuesta del servidor
         xhr.onload = function() {
             if (xhr.status === 200) {
                 console.log('Sesión cerrada exitosamente');
-                // Puedes redirigir a la página de inicio de sesión u otra página
+                
                 window.location.href = '/login';
             } else {
                 console.error('Error al cerrar sesión:', xhr.statusText);
-                // Manejar el error de cierre de sesión según sea necesario
             }
         };
 
