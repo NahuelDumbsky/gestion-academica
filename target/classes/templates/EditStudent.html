@@ -8,7 +8,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
-    <a class="navbar-brand" href="../../estudiantes"> Volver a Gestion Academica</a>
+    <a class="navbar-brand" href="../../estudiantes"> Volver a Gestión Académica</a>
 </nav>
 <br/>
 <div class="container">
@@ -19,12 +19,12 @@
                 <form th:action="@{'/estudiantes/' + ${student.studentId}}" th:object="${student}" method="POST">
                     <div class="form-group">
                         <label>Nombre: </label>
-                        <input type="text" name="firstName" th:field="*{firstName}" class="form-control" placeholder="Ingrese nombre" required>
+                        <input type="text" name="firstName" th:field="*{firstName}" class="form-control" placeholder="Ingrese Nombre" required>
                     </div>
                     <br/>
                     <div class="form-group">
                         <label>Apellido: </label>
-                        <input type="text" name="lastName" th:field="*{lastName}" class="form-control" placeholder="Ingrese apellido" required>
+                        <input type="text" name="lastName" th:field="*{lastName}" class="form-control" placeholder="Ingrese Apellido" required>
                     </div>
                     <br/>
                     <div class="box-footer">

@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <h1>Gestion Academica</h1>
+    <div class="title-bar">
+        <h1>Gestión Académica</h1>
+    </div>
+    
     <div id="cards-container">
         <a href="/estudiantes">
             <div class="cards">
@@ -28,30 +31,9 @@
     </div>
 
     <!-- Botón de Logout -->
-    <form id="logoutForm" action="/logout" method="post">
+    <form id="logoutForm" action="/logout" method="get">
         <button type="submit" class="logout-button">Cerrar sesión</button>
     </form>
 </body>
 
-<script>
-    document.getElementById('logoutButton').addEventListener('click', function() {
-        // Enviar una solicitud al servidor para invalidar la sesión actual
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/login');
-
-        // Manejar la respuesta del servidor
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Sesión cerrada exitosamente');
-                
-                window.location.href = '/login';
-            } else {
-                console.error('Error al cerrar sesión:', xhr.statusText);
-            }
-        };
-
-        // Enviar la solicitud
-        xhr.send();
-    });
-</script>
 </html>

@@ -22,7 +22,6 @@ import com.poo.GestionAcademica.services.CourseService;
 import com.poo.GestionAcademica.services.InscriptionService;
 import com.poo.GestionAcademica.services.StudentService;
 
-
 @Controller
 public class StudentCRUDController {
 

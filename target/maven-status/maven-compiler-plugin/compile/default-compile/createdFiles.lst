@@ -4,10 +4,12 @@ com\poo\GestionAcademica\repositories\CourseRepository.class
 com\poo\GestionAcademica\services\StudentService.class
 com\poo\GestionAcademica\GestionAcademicaApplication.class
 com\poo\GestionAcademica\WebConfig\SecConf.class
+com\poo\GestionAcademica\WebConfig\HomeController.class
 com\poo\GestionAcademica\controllers\CourseController.class
 com\poo\GestionAcademica\controllers\CourseCRUDController.class
 com\poo\GestionAcademica\entities\Student.class
 com\poo\GestionAcademica\APILOGIN\LoginAPI.class
+com\poo\GestionAcademica\WebConfig\CustomAccessDeniedHandler.class
 com\poo\GestionAcademica\services\InscriptionService.class
 com\poo\GestionAcademica\repositories\InscriptionRepository.class
 com\poo\GestionAcademica\WebConfig\AppConfig.class

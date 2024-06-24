@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
-    <a class="navbar-brand" href="/"> Volver a Gestion Academica</a>
+    <a class="navbar-brand" href="/"> Volver a Gestión Académica</a>
     <a class="navbar-brand" href="/estudiantes"> Volver a Estudiantes</a>
 </nav>
 <br/>
@@ -61,7 +61,7 @@
                 <td th:text="${course.courseName}">Nombre</td>
                 <td th:text="${course.description}">Descripción</td>
                 <td>
-                    <button type="button" class="btn btn-info" th:attr="onclick='inscribirEstudiante(\'' + ${studentId} + '\', \'' + ${course.courseId} + '\')'">Inscribirse</button>
+                    <button type="button" class="btn btn-info" th:attr="onclick='inscribirEstudiante(\'' + ${studentId} + '\', \'' + ${course.courseId} + '\')'">Inscribir</button>
                 </td>
             </tr>
         </tbody>

@@ -48,7 +48,7 @@ public class LoginAPI {
             // Obtener el código de respuesta
             int responseCode = conexionLogin.getResponseCode();
 
-            if (responseCode != 200) {
+            if (responseCode != 200) { //para la nueva cambiar a 201
                 throw new RuntimeException("No es posible conectarse: " + responseCode);
             } else {
                 StringBuilder informacionJson = new StringBuilder();
@@ -65,7 +65,8 @@ public class LoginAPI {
 
                 // Muestra de datos por consola (se puede borrar)
                 String token = responseJson.getString("token");
-                String userId = responseJson.getString("userId");
+                String userId =responseJson.getString("userId");
+                //long userId = responseJson.getLong("userId");
                 System.out.println("Token: " + token);
                 System.out.println("User ID: " + userId);
 
@@ -110,6 +111,7 @@ public class LoginAPI {
             // Crear el JSON de solicitud con token y systemId
             String token = responseJson.getString("token");
             String systemId = "sistema2"; // SystemId siempre es "2"
+            //String systemId = "GESTION_ACADEMICA"; // SystemId siempre es "GESTION_ACADEMICA"
             String jsonInputString = new JSONObject()
                     .put("token", token)
                     .put("systemId", systemId)

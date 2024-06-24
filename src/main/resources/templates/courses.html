@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
-        <a class="navbar-brand" href="/"> Volver a Gestion Academica</a>
+        <a class="navbar-brand" href="/"> Volver a Gestión Académica</a>
     </nav>
 <br/>
     <div class="container">
@@ -25,7 +25,7 @@
             <thead class="table-dark">
             <tr>
                 <th>Nombre</th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -33,11 +33,11 @@
             <tbody>
             <tr th:each="course : ${courses}">
                 <td th:text="${course.courseName}">Nombre</td>
-                <td th:text="${course.description}">Descripcion</td>
+                <td th:text="${course.description}">Descripción</td>
                 <td>
                     <a th:href="@{/cursos/estudiantes/{id}(id=${course.courseId})}" class="btn btn-primary">Ver</a>
                     <a th:href="@{/cursos/editar/{id}(id=${course.courseId})}" class="btn btn-info">Editar</a>
-                    <a th:href="@{/cursos/eliminar/{id}(id=${course.courseId})}" onclick="return confirm('¿Estás seguro de que quieres eliminar a este estudiante?');" class="btn btn-danger">Eliminar</a>
+                    <a th:href="@{/cursos/eliminar/{id}(id=${course.courseId})}" onclick="return confirm('¿Estás seguro de que quieres eliminar este curso?');" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
             </tbody>

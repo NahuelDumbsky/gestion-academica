@@ -34,17 +34,12 @@ public class SecConf extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //A PARTIR DE LOGOUT YA NO FUNCIONA EL BORRAR SESION
-
-        //SI FUNCIONA EL EXCEPCION HANDLING
-
         http.authorizeRequests(requests -> requests
                 .antMatchers(HttpMethod.POST).permitAll()
                 .antMatchers(HttpMethod.DELETE).permitAll()
-                .antMatchers("/", "/estudiantes/**", "/cursos/**").hasRole("ADMIN")
+                .antMatchers( "/","/estudiantes/**", "/cursos/**").hasRole("ADMIN")
                 .antMatchers("/courses/**","/students/**").permitAll())
                 .formLogin(login -> login
-                        .loginProcessingUrl("/authenticateTheUser")
                         .permitAll())
                 .logout(logout -> logout
                         .permitAll()
@@ -61,6 +56,6 @@ public class SecConf extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/courses/*/enroll/*"); // La direccion de enroll con metodos post y delete
-                                                                          // ignora las autorizaciones anteriores
+                                                                                          // ignora las autorizaciones anteriores
     }
 }
