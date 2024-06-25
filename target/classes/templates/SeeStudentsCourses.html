@@ -10,8 +10,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
-    <a class="navbar-brand" href="/"> Volver a Gestión Académica</a>
-    <a class="navbar-brand" href="/cursos"> Volver a Cursos</a>
+    <a class="navbar-brand" href="/sistema_gestion"> Volver a Gestión Académica</a>
+    <a class="navbar-brand" href="/sistema_gestion/cursos"> Volver a Cursos</a>
 </nav>
 <br/>
 <div class="container">
@@ -44,7 +44,7 @@
 <script th:inline="javascript">
     function eliminarEstudiante(studentId, courseId) {
     if (confirm('¿Estás seguro de que quieres eliminar a este estudiante?')) {
-        var url = '/cursos/estudiantes/' + courseId + '/borrar/' + studentId;
+        var url = '/sistema_gestion/cursos/estudiantes/' + courseId + '/borrar/' + studentId;
         // Obtener el token CSRF desde el campo hidden en el formulario
         var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
         var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");

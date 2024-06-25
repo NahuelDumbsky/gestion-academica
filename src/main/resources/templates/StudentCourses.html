@@ -11,8 +11,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
-    <a class="navbar-brand" href="/"> Volver a Gestión Académica</a>
-    <a class="navbar-brand" href="/estudiantes"> Volver a Estudiantes</a>
+    <a class="navbar-brand" href="/sistema_gestion"> Volver a Gestión Académica</a>
+    <a class="navbar-brand" href="/sistema_gestion/estudiantes"> Volver a Estudiantes</a>
 </nav>
 <br/>
 <div class="container">
@@ -72,7 +72,7 @@
 <script th:inline="javascript">
     function inscribirEstudiante(studentId, courseId) {
         if (confirm('¿Inscribir a la materia?')) {
-            var url = '/estudiantes/cursos/' + studentId + '/inscribir/' + courseId;
+            var url = '/sistema_gestion/estudiantes/cursos/' + studentId + '/inscribir/' + courseId;
 
             // Obtener el token CSRF desde el campo hidden en el formulario
             var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
@@ -105,7 +105,7 @@
 <script th:inline="javascript">
     function darDeBajaEstudiante(studentId, courseId) {
         if (confirm('¿Dar de baja de la materia?')) {
-            var url = '/estudiantes/cursos/' + studentId + '/darDeBaja/' + courseId;
+            var url = '/sistema_gestion/estudiantes/cursos/' + studentId + '/darDeBaja/' + courseId;
             
             // Obtener el token CSRF desde el campo hidden en el formulario
             var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");

@@ -99,7 +99,7 @@ public class LOGSController {
 
     private static void enrollStudent(Student student, String courseId) {
         try {
-            String baseEnroll = "http://localhost:8080/courses/" + courseId + "/enroll/student"
+            String baseEnroll = "http://localhost:8080/sistema_gestion/courses/" + courseId + "/enroll/student"
                     + student.getStudentId();
 
             System.out.println(baseEnroll);
@@ -123,7 +123,7 @@ public class LOGSController {
 
     private static void unenrollStudent(Student student, String courseId) {
         try {
-            String baseUnEnroll = "http://localhost:8080/courses/" + courseId + "/enroll/student"
+            String baseUnEnroll = "http://localhost:8080/sistema_gestion/courses/" + courseId + "/enroll/student"
                     + student.getStudentId();
 
             System.out.println(baseUnEnroll);
