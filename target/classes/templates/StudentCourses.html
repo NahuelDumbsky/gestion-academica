@@ -68,6 +68,33 @@
     </table>
 </div>
 
+<br/>
+
+<div class="container">
+    <div class="row">
+        <h2>Logs</h2>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="w-25">Fecha</th>
+                <th class="w-25">ID Curso</th>
+                <th class="w-25">Nombre Curso</th>
+                <th class="w-25">Event</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterar sobre los logs -->
+            <tr th:each="log : ${logs}">
+                <td th:text="${log.timestamp}">Fecha</td>
+                <td th:text="${log.courseId}">ID Curso</td>
+                <td th:text="${log.courseName}">ID Curso</td>
+                <td th:text="${log.event}">Evento</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 <script th:inline="javascript">
     function inscribirEstudiante(studentId, courseId) {

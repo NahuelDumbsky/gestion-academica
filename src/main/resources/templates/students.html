@@ -12,7 +12,7 @@
         <nav class="navbar navbar-expand-md bg-dark navbar-dark" style="padding: 10px;">
             <a class="navbar-brand" href="/sistema_gestion"> Volver a Gestión Académica</a>
         </nav>
-<br/>
+    <br/>
         <div class="container">
             <div class="row">
                 <h1>Lista de Estudiantes</h1>
@@ -47,56 +47,5 @@
                 <tfoot>
                 </tfoot>
             </table>
-        </div>
-
-            <!-- Botón para ejecutar método Java -->
-            <div class="row justify-content-end fixed-bottom mb-3 me-3">
-                <div class="col-auto">
-                    <button onclick="actualizarLogs()" class="btn btn-success btn-sm">Actualizar Logs</button>
-                </div>
-            </div>
-        </div>
-
-        <script th:inline="javascript">
-            function actualizarLogs() {
-                if (confirm('¿Actualizar logs?')) {
-                    var url = '/sistema_gestion/estudiantes/actualizarLogs';
-                    
-                    // Obtener el token CSRF desde el campo hidden en el formulario
-                    var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-                    var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-                    
-                    // Configurar la solicitud POST con fetch
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // Añadir el token CSRF a las cabeceras
-                            [csrfHeader]: csrfToken
-                        },
-                        // Puedes enviar datos adicionales si es necesario
-                        body: JSON.stringify({ /* datos opcionales */ })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Verificar si la respuesta es una redirección
-                            if (response.redirected) {
-                                // Manejar la redirección
-                                window.location.href = response.url; // Redirigir a la URL proporcionada por la API
-                            } else {
-                                alert('Logs actualizados correctamente');
-                                window.location.reload(); // Redirigir después de actualizar
-                            }
-                        } else {
-                            alert('Error al actualizar logs');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error en la solicitud:', error);
-                        alert('Error en la solicitud');
-                    });
-                }
-            }
-        </script>
     </body>
 </html>

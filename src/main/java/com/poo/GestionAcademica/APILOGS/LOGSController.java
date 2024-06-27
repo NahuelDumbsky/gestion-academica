@@ -2,146 +2,121 @@ package com.poo.GestionAcademica.APILOGS;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.poo.GestionAcademica.entities.Student;
+import com.poo.GestionAcademica.services.CourseService;
 
+@Service
 public class LOGSController {
 
+    // static String baseLoginString
+    // ="http://poo-dev.unsada.edu.ar:8080/sistema_autogestion/logs/";
     static String baseLoginString = "https://poo2024.unsada.edu.ar/sistema_autogestion/logs/";
 
-    public void findLogs(List<Student> students) {
+    @Autowired
+    private CourseService courseService;
+
+    public List<Log> findLogs(int studentId) {
         try {
-            for (Student student : students) {
-                String baseLoginStringAux = baseLoginString;
-                int id = student.getStudentId();
-                baseLoginStringAux += "student" + id;
+            String baseLoginStringAux = baseLoginString + "student" + studentId;
 
-                URL baseLogin = new URL(baseLoginStringAux);
+            URL baseLogin = new URL(baseLoginStringAux);
 
-                HttpURLConnection conexionLogin = (HttpURLConnection) baseLogin.openConnection();
-                conexionLogin.setRequestMethod("GET");
-                conexionLogin.connect();
+            HttpURLConnection conexionLogin = (HttpURLConnection) baseLogin.openConnection();
+            conexionLogin.setRequestMethod("GET");
+            conexionLogin.connect();
 
-                int responseCode = conexionLogin.getResponseCode();
+            int responseCode = conexionLogin.getResponseCode();
 
-                if (responseCode != 200) {
-                    if (responseCode == 400) {
-                        System.out.println("No hay logs para student" + id);
-                    } else {
-                        System.out.println("No es posible conectar para student " + id + ": " + responseCode);
-                    }
-                    continue;
+            if (responseCode != 200) {
+                if (responseCode == 400) {
+                    System.out.println("No hay logs para student" + studentId);
+                    return null;
                 } else {
-                    StringBuilder informacionJson = new StringBuilder();
-                    Scanner in = new Scanner(baseLogin.openStream());
-                    while (in.hasNext()) {
-                        informacionJson.append(in.nextLine());
-                    }
-                    in.close();
-
-                    // Parsear el JSON recibido
-                    JSONArray jsonArray = new JSONArray(informacionJson.toString());
-
-                    // Mapa para almacenar el evento más reciente por courseId
-                    Map<String, JSONObject> latestEventsMap = new HashMap<>();
-
-                    // Iterar sobre cada objeto JSON en el array
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if (jsonObject.has("timestamp") && jsonObject.has("event") && jsonObject.has("courseId")) {
-                            String courseId = jsonObject.getString("courseId");
-                            String timestamp = jsonObject.getString("timestamp");
-
-                            // Si el courseId ya está en el mapa, comparamos timestamps
-                            if (latestEventsMap.containsKey(courseId)) {
-                                JSONObject currentEvent = latestEventsMap.get(courseId);
-                                String currentTimestamp = currentEvent.getString("timestamp");
-
-                                // Si el timestamp actual es más reciente, actualizamos el evento en el mapa
-                                if (timestamp.compareTo(currentTimestamp) > 0) {
-                                    latestEventsMap.put(courseId, jsonObject);
-                                }
-                            } else {
-                                // Si no está en el mapa, agregamos el evento
-                                latestEventsMap.put(courseId, jsonObject);
-                            }
-                        }
-                    }
-
-                    for (String courseId : latestEventsMap.keySet()) {
-                        JSONObject event = latestEventsMap.get(courseId);
-                        String eventDetail = event.getString("event");
-
-                        System.out.println(eventDetail);
-                        // Determinar la acción a tomar en base al evento más reciente
-                        if ("ALTA".equalsIgnoreCase(eventDetail)) {
-                            enrollStudent(student, courseId);
-                        } else if ("BAJA".equalsIgnoreCase(eventDetail)) {
-                            unenrollStudent(student, courseId);
-                        }
-                    }
-
+                    System.out.println("No es posible conectar para student " + studentId + ": " + responseCode);
+                    return null;
                 }
-                baseLoginStringAux = baseLoginString;
+            } else {
+                StringBuilder informacionJson = new StringBuilder();
+                Scanner in = new Scanner(conexionLogin.getInputStream());
+                while (in.hasNext()) {
+                    informacionJson.append(in.nextLine());
+                }
+                in.close();
+
+                // Parsear el JSON recibido
+                JSONArray responseJson = new JSONArray(informacionJson.toString());
+
+                // Convertir el JSONArray a una lista de objetos Log
+                List<Log> logsList = new ArrayList<>();
+                for (int i = 0; i < responseJson.length(); i++) {
+                    JSONObject logJson = responseJson.getJSONObject(i);
+                    Log log = new Log();
+                    log.setTimestamp(logJson.getString("timestamp"));
+                    log.setCourseId(logJson.getString("courseId"));
+                    log.setEvent(logJson.getString("event"));
+                    logsList.add(log);
+
+                    System.out.println(logJson.getString("timestamp"));
+                    System.out.println(logJson.getString("courseId"));
+                    System.out.println(logJson.getString("event"));
+                }
+
+                return logsList;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private static void enrollStudent(Student student, String courseId) {
-        try {
-            String baseEnroll = "http://localhost:8080/sistema_gestion/courses/" + courseId + "/enroll/student"
-                    + student.getStudentId();
-
-            System.out.println(baseEnroll);
-
-            URL baseEnrollUrl = new URL(baseEnroll);
-
-            HttpURLConnection connectionEnroll = (HttpURLConnection) baseEnrollUrl.openConnection();
-            connectionEnroll.setRequestMethod("POST");
-            connectionEnroll.setDoOutput(true);
-
-            connectionEnroll.connect();
-
-            int responseCode = connectionEnroll.getResponseCode();
-
-            System.out.println(responseCode);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void unenrollStudent(Student student, String courseId) {
-        try {
-            String baseUnEnroll = "http://localhost:8080/sistema_gestion/courses/" + courseId + "/enroll/student"
-                    + student.getStudentId();
-
-            System.out.println(baseUnEnroll);
-
-            URL baseUnEnrollUrl = new URL(baseUnEnroll);
-
-            HttpURLConnection connectionUnEnroll = (HttpURLConnection) baseUnEnrollUrl.openConnection();
-            connectionUnEnroll.setRequestMethod("DELETE");
-            connectionUnEnroll.setDoOutput(true);
-
-            connectionUnEnroll.connect();
-
-            int responseCode = connectionUnEnroll.getResponseCode();
-
-            System.out.println(responseCode);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
     }
 }
+
+/*
+ * public List<String> findLogs(int studentId) {
+ * try {
+ * String baseLoginStringAux = baseLoginString + "student" + studentId;
+ * 
+ * URL baseLogin = new URL(baseLoginStringAux);
+ * 
+ * HttpURLConnection conexionLogin = (HttpURLConnection)
+ * baseLogin.openConnection();
+ * conexionLogin.setRequestMethod("GET");
+ * conexionLogin.connect();
+ * 
+ * int responseCode = conexionLogin.getResponseCode();
+ * 
+ * if (responseCode != 200) {
+ * if (responseCode == 400) {
+ * System.out.println("No hay logs para student" + studentId);
+ * return null;
+ * } else {
+ * System.out.println("No es posible conectar para student " + studentId + ": "
+ * + responseCode);
+ * return null;
+ * }
+ * } else {
+ * StringBuilder informacionJson = new StringBuilder();
+ * Scanner in = new Scanner(baseLogin.openStream());
+ * while (in.hasNext()) {
+ * informacionJson.append(in.nextLine());
+ * }
+ * in.close();
+ * 
+ * // Parsear el JSON recibido
+ * JSONArray responseJson = new JSONArray();
+ * 
+ * return responseJson;
+ * }
+ * } catch (Exception e) {
+ * e.printStackTrace();
+ * return null;
+ * }
+ * }
+ */

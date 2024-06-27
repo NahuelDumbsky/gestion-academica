@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.poo.GestionAcademica.APILOGS.LOGSController;
+import com.poo.GestionAcademica.APILOGS.Log;
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
@@ -86,9 +86,16 @@ public class StudentCRUDController {
                 .filter(course -> !student.getStudentCourses().contains(course))
                 .collect(Collectors.toList());
 
+        List<Log> logs = logsEstudiantes(id);
+        for (Log log : logs) {
+            Course course = courseService.findById(obtenerId(log.getCourseId()));
+            log.setCourseName(course.getCourseName());
+        }
+
         // Agregar los cursos del estudiante y los cursos disponibles al modelo
         model.addAttribute("courses", studentCourses);
         model.addAttribute("availableCourses", availableCourses);
+        model.addAttribute("logs", logs);
         model.addAttribute("studentId", id);
 
         return "StudentCourses";
@@ -167,10 +174,12 @@ public class StudentCRUDController {
         return "StudentCourses";
     }
 
-    @PostMapping("/estudiantes/actualizarLogs")
-    public String actualizarLogsEstudiantes(@RequestBody String entity) {
+    private List<Log> logsEstudiantes(int studentId) {
         LOGSController logsController = new LOGSController();
-        logsController.findLogs(studentService.findAll());
-        return "students";
+        return logsController.findLogs(studentId);
+    }
+
+    private int obtenerId(String idString) {
+        return Integer.parseInt(idString.replace("course", ""));
     }
 }
