@@ -8,21 +8,13 @@ import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.poo.GestionAcademica.services.CourseService;
 
 @Service
 public class LOGSController {
 
-    // static String baseLoginString
-    // ="http://poo-dev.unsada.edu.ar:8080/sistema_autogestion/logs/";
-    static String baseLoginString = "https://poo2024.unsada.edu.ar/sistema_autogestion/logs/";
-
-    @Autowired
-    private CourseService courseService;
-
+    static String baseLoginString = "http://poo-dev.unsada.edu.ar:8080/sistema_autogestion/logs/";
+    
     public List<Log> findLogs(int studentId) {
         try {
             String baseLoginStringAux = baseLoginString + "student" + studentId;
@@ -36,12 +28,13 @@ public class LOGSController {
             int responseCode = conexionLogin.getResponseCode();
 
             if (responseCode != 200) {
+                List<Log> logsList = new ArrayList<>();
                 if (responseCode == 400) {
                     System.out.println("No hay logs para student" + studentId);
-                    return null;
+                    return logsList;
                 } else {
                     System.out.println("No es posible conectar para student " + studentId + ": " + responseCode);
-                    return null;
+                    return logsList;
                 }
             } else {
                 StringBuilder informacionJson = new StringBuilder();
@@ -73,7 +66,8 @@ public class LOGSController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            List<Log> logsList = new ArrayList<>();
+            return logsList;
         }
     }
 }

@@ -8,6 +8,7 @@ com\poo\GestionAcademica\WebConfig\HomeController.class
 com\poo\GestionAcademica\controllers\CourseController.class
 com\poo\GestionAcademica\controllers\CourseCRUDController.class
 com\poo\GestionAcademica\entities\Student.class
+com\poo\GestionAcademica\APILOGS\Log.class
 com\poo\GestionAcademica\APILOGIN\LoginAPI.class
 com\poo\GestionAcademica\WebConfig\CustomAccessDeniedHandler.class
 com\poo\GestionAcademica\services\InscriptionService.class

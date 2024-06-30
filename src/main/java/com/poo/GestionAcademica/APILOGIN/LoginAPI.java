@@ -1,4 +1,5 @@
 package com.poo.GestionAcademica.APILOGIN;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -15,19 +16,21 @@ public class LoginAPI {
 
     private final RestTemplate restTemplate;
 
+    static String baseLoginString = "https://poo2024.unsada.edu.ar/sistema_login/login"; // URL de la API
+
     public LoginAPI(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-        public static boolean loginUser(String username, String password) {
+
+    public static boolean loginUser(String username, String password) {
         HttpURLConnection conexionLogin = null;
         OutputStream os = null;
         BufferedReader br = null;
 
         try {
-            String baseLoginString = "https://poo2024.unsada.edu.ar/sistema_login/login"; // URL de la API
             URL baseLogin = new URL(baseLoginString);
             System.out.println(baseLogin);
-            
+
             conexionLogin = (HttpURLConnection) baseLogin.openConnection();
             conexionLogin.setRequestMethod("POST");
             conexionLogin.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -48,7 +51,7 @@ public class LoginAPI {
             // Obtener el código de respuesta
             int responseCode = conexionLogin.getResponseCode();
 
-            if (responseCode != 200) { //para la nueva cambiar a 201
+            if (responseCode != 200) { // para la nueva cambiar a 201
                 throw new RuntimeException("No es posible conectarse: " + responseCode);
             } else {
                 StringBuilder informacionJson = new StringBuilder();
@@ -65,8 +68,8 @@ public class LoginAPI {
 
                 // Muestra de datos por consola (se puede borrar)
                 String token = responseJson.getString("token");
-                String userId =responseJson.getString("userId");
-                //long userId = responseJson.getLong("userId");
+                String userId = responseJson.getString("userId");
+                // long userId = responseJson.getLong("userId");
                 System.out.println("Token: " + token);
                 System.out.println("User ID: " + userId);
 
@@ -111,7 +114,8 @@ public class LoginAPI {
             // Crear el JSON de solicitud con token y systemId
             String token = responseJson.getString("token");
             String systemId = "sistema2"; // SystemId siempre es "2"
-            //String systemId = "GESTION_ACADEMICA"; // SystemId siempre es "GESTION_ACADEMICA"
+            // String systemId = "GESTION_ACADEMICA"; // SystemId siempre es
+            // "GESTION_ACADEMICA"
             String jsonInputString = new JSONObject()
                     .put("token", token)
                     .put("systemId", systemId)
@@ -179,4 +183,3 @@ public class LoginAPI {
         return false;
     }
 }
-
