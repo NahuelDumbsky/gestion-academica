@@ -16,7 +16,7 @@ public class LoginAPI {
 
     private final RestTemplate restTemplate;
 
-    static String baseLoginString = "https://poo2024.unsada.edu.ar/sistema_login/login"; // URL de la API
+    static String baseLoginString = "http://poo-dev.unsada.edu.ar:4000/sistema_login/login"; // URL de la API
 
     public LoginAPI(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -51,7 +51,7 @@ public class LoginAPI {
             // Obtener el código de respuesta
             int responseCode = conexionLogin.getResponseCode();
 
-            if (responseCode != 200) { // para la nueva cambiar a 201
+            if (responseCode != 201) {
                 throw new RuntimeException("No es posible conectarse: " + responseCode);
             } else {
                 StringBuilder informacionJson = new StringBuilder();
@@ -101,7 +101,7 @@ public class LoginAPI {
         OutputStream os = null;
         BufferedReader br = null;
         try {
-            String baseAuthorizeString = "https://poo2024.unsada.edu.ar/sistema_login/authorize"; // URL de la API
+            String baseAuthorizeString = "http://poo-dev.unsada.edu.ar:4000/sistema_login/authorize"; // URL de la API
             URL baseAuthorize = new URL(baseAuthorizeString);
             System.out.println(baseAuthorize);
 
@@ -113,9 +113,8 @@ public class LoginAPI {
 
             // Crear el JSON de solicitud con token y systemId
             String token = responseJson.getString("token");
-            String systemId = "sistema2"; // SystemId siempre es "2"
-            // String systemId = "GESTION_ACADEMICA"; // SystemId siempre es
-            // "GESTION_ACADEMICA"
+            // String systemId = "sistema2"; // SystemId siempre es "2"
+            String systemId = "GESTION_ACADEMICA"; // SystemId siempre es "GESTION_ACADEMICA"
             String jsonInputString = new JSONObject()
                     .put("token", token)
                     .put("systemId", systemId)
