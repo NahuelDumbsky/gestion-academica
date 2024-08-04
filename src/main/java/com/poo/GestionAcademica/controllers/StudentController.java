@@ -29,6 +29,7 @@ public class StudentController {
                 .map(student -> {
                     List<Object> studentData = new ArrayList<>();
                     studentData.add("studentId: student" + student.getStudentId());
+                    studentData.add("userId: " + student.getUserId());
                     studentData.add("firstName: " + student.getFirstName());
                     studentData.add("lastName: " + student.getLastName());
                     List<String> courses = student.getInscriptions().stream()
@@ -59,6 +60,7 @@ public class StudentController {
         // Construir la lista con los datos del estudiante y los cursos inscriptos
         List<Object> studentData = new ArrayList<>();
         studentData.add("studentId: student" + student.getStudentId());
+        studentData.add("userId: " + student.getUserId());
         studentData.add("firstName: " + student.getFirstName());
         studentData.add("lastName: " + student.getLastName());
 
