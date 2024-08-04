@@ -19,9 +19,11 @@ import com.poo.GestionAcademica.APILOGS.Log;
 import com.poo.GestionAcademica.entities.Course;
 import com.poo.GestionAcademica.entities.Inscription;
 import com.poo.GestionAcademica.entities.Student;
+import com.poo.GestionAcademica.entities.UserStudents;
 import com.poo.GestionAcademica.services.CourseService;
 import com.poo.GestionAcademica.services.InscriptionService;
 import com.poo.GestionAcademica.services.StudentService;
+import com.poo.GestionAcademica.services.UserStudentsService;
 
 @Controller
 public class StudentCRUDController {
@@ -38,6 +40,9 @@ public class StudentCRUDController {
     @Autowired
     private LoginABMAPI loginABMAPI;
 
+    @Autowired
+    private UserStudentsService userStudentsService;
+
     @GetMapping({ "/estudiantes" })
     public String listarEstudiantes(Model model) {
         model.addAttribute("students", studentService.findAll());
@@ -53,6 +58,10 @@ public class StudentCRUDController {
     @PostMapping("/estudiantes")
     public String guardarEstudiante(@ModelAttribute("student") Student student) {
         studentService.save(student);
+        UserStudents userstudentaux = new UserStudents();
+        userstudentaux.setStudentID(student.getStudentId());
+        userstudentaux.setUserID(student.getUserId());
+        userStudentsService.save(userstudentaux);
         return "redirect:/estudiantes"; // Redirige a la lista de estudiantes
     }
 
@@ -75,6 +84,9 @@ public class StudentCRUDController {
     @GetMapping("/estudiantes/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable("id") int id) {
         loginABMAPI.deletestudentbyid(studentService.findById(id));
+        Student aux = studentService.findById(id);
+        int idestudiante = aux.getStudentId();
+        userStudentsService.deleteByStudentID(idestudiante);
         studentService.deleteById(id);
         return "redirect:/estudiantes"; // Redirige a la lista de estudiantes
     }
