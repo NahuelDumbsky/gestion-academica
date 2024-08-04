@@ -2,6 +2,7 @@ package com.poo.GestionAcademica.services;
 
 import java.util.List;
 
+import com.poo.GestionAcademica.APILOGIN.LoginABMAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,18 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private LoginABMAPI loginABMAPI;
+
     public List<Student> findAll() {
         return studentRepository.findAll();
     }
 
     public Student save(Student student) {
+        student.setUserId(loginABMAPI.RegisterAndGetUserID(student));
         return studentRepository.save(student);
     }
+
 
     public Student findById(int studentId) {
         return studentRepository.findById(studentId)

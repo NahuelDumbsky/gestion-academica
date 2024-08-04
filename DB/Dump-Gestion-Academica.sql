@@ -29,7 +29,7 @@ CREATE TABLE `course` (
   `course_name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `inscription` (
   KEY `FKq37anphmnjovhr5xep615qui1` (`student_student_id`),
   CONSTRAINT `FKakfqu9ogxp6fgafahd2tpqs8d` FOREIGN KEY (`course_course_id`) REFERENCES `course` (`course_id`),
   CONSTRAINT `FKq37anphmnjovhr5xep615qui1` FOREIGN KEY (`student_student_id`) REFERENCES `student` (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `inscription` (
 
 LOCK TABLES `inscription` WRITE;
 /*!40000 ALTER TABLE `inscription` DISABLE KEYS */;
-INSERT INTO `inscription` VALUES (106,2,2),(108,4,3),(109,3,1),(111,3,2),(115,2,1);
+INSERT INTO `inscription` VALUES (108,4,3),(146,1,2);
 /*!40000 ALTER TABLE `inscription` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,8 +82,9 @@ CREATE TABLE `student` (
   `student_id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +93,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,'Juan','Perez'),(2,'Juan','García'),(3,'Claudia','Gómez'),(4,'Jose','martinez');
+INSERT INTO `student` VALUES (1,'Juan','Perez',0),(2,'Juan','García',0),(3,'Claudia','Gómez',0),(4,'Jose','martinez',0);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -105,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-23  0:43:38
+-- Dump completed on 2024-08-03 21:23:41

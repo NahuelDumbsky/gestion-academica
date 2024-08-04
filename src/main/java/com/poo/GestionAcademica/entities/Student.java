@@ -18,6 +18,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
+    private int userId;
     private String firstName;
     private String lastName;
     
@@ -28,10 +29,18 @@ public class Student {
     public Student() {
     }
 
-    public Student(int studentId, String firstName, String lastName) {
-        this.studentId = studentId;
+    public Student(int userId, String firstName, String lastName) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getStudentId() {
