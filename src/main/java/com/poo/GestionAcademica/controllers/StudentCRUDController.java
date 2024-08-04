@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.poo.GestionAcademica.APILOGIN.LoginABMAPI;
 import com.poo.GestionAcademica.APILOGS.LOGSController;
 import com.poo.GestionAcademica.APILOGS.Log;
 import com.poo.GestionAcademica.entities.Course;
@@ -33,6 +34,9 @@ public class StudentCRUDController {
 
     @Autowired
     private InscriptionService inscriptionService;
+
+    @Autowired
+    private LoginABMAPI loginABMAPI;
 
     @GetMapping({ "/estudiantes" })
     public String listarEstudiantes(Model model) {
@@ -68,6 +72,7 @@ public class StudentCRUDController {
 
     @GetMapping("/estudiantes/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable("id") int id) {
+        loginABMAPI.deletestudentbyid(studentService.findById(id));
         studentService.deleteById(id);
         return "redirect:/estudiantes"; // Redirige a la lista de estudiantes
     }
