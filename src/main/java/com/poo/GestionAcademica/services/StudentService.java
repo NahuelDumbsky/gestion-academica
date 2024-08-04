@@ -2,10 +2,10 @@ package com.poo.GestionAcademica.services;
 
 import java.util.List;
 
-import com.poo.GestionAcademica.APILOGIN.LoginABMAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.poo.GestionAcademica.APILOGIN.LoginABMAPI;
 import com.poo.GestionAcademica.entities.Student;
 import com.poo.GestionAcademica.repositories.StudentRepository;
 
@@ -26,7 +26,6 @@ public class StudentService {
         student.setUserId(loginABMAPI.RegisterAndGetUserID(student));
         return studentRepository.save(student);
     }
-
 
     public Student findById(int studentId) {
         return studentRepository.findById(studentId)
