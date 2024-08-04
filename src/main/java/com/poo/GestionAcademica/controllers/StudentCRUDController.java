@@ -65,7 +65,9 @@ public class StudentCRUDController {
 
     @PostMapping("/estudiantes/{id}")
     public String actualizarEstudiante(@PathVariable("id") int id, @ModelAttribute("student") Student student) {
+        Student aux = studentService.findById(id);
         student.setStudentId(id); // Aseguramos que el ID del estudiante sea el correcto
+        student.setUserId(aux.getUserId());
         studentService.updateStudent(student); // Guarda o actualiza al estudiante
         return "redirect:/estudiantes"; // Redirige a la lista de estudiantes
     }
