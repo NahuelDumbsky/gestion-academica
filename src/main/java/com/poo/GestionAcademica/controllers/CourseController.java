@@ -89,7 +89,8 @@ public class CourseController {
     }
 
     @PostMapping("/courses/{course_id}/enroll/{student_id}")
-    public ResponseEntity<String> enrollStudent(@PathVariable("course_id") String courseIdStr,@PathVariable("student_id") String studentIdStr) {
+    public ResponseEntity<String> enrollStudent(@PathVariable("course_id") String courseIdStr,
+            @PathVariable("student_id") String studentIdStr) {
         int studentId;
         int courseId;
         try {
@@ -130,14 +131,15 @@ public class CourseController {
         course.getStudentsInscriptions().add(inscription);
 
         // Guardar los cambios en estudiantes y cursos
-        studentService.save(student);
+        studentService.updateStudent(student);
         courseService.save(course);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("{\n\tEnrollment successful\n}");
     }
 
     @DeleteMapping("/courses/{course_id}/enroll/{student_id}")
-    public ResponseEntity<String> unenrollStudent(@PathVariable("course_id") String courseIdStr,@PathVariable("student_id") String studentIdStr) {
+    public ResponseEntity<String> unenrollStudent(@PathVariable("course_id") String courseIdStr,
+            @PathVariable("student_id") String studentIdStr) {
         int studentId;
         int courseId;
         try {
@@ -172,7 +174,7 @@ public class CourseController {
         inscriptionService.deleteById(inscriptionToRemove.getInscriptionId());
 
         // Guardar los cambios en estudiantes y cursos
-        studentService.save(student);
+        studentService.updateStudent(student);
         courseService.save(course);
 
         return ResponseEntity.status(HttpStatus.OK).body("{\n\tUnenrollment successful\n}");
@@ -184,7 +186,7 @@ public class CourseController {
         } else if (idString.matches("^course\\d+$")) {
             return Integer.parseInt(idString.replace("course", ""));
         } else {
-            throw new NumberFormatException( "{\n\tcourse not found\n}");
+            throw new NumberFormatException("{\n\tcourse not found\n}");
         }
     }
 

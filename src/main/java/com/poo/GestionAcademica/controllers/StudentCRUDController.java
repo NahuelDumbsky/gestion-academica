@@ -172,7 +172,7 @@ public class StudentCRUDController {
         inscriptionService.deleteById(inscriptionToRemove.getInscriptionId());
 
         // Guardar los cambios en estudiantes y cursos
-        studentService.save(auxStudent);
+        studentService.updateStudent(auxStudent);
         courseService.save(auxCourse);
 
         // Obtener todos los cursos disponibles
