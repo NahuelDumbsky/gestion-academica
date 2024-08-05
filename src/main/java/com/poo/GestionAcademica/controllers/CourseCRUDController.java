@@ -116,7 +116,7 @@ public class CourseCRUDController {
         inscriptionService.deleteById(inscriptionToRemove.getInscriptionId());
 
         // Guardar los cambios en estudiantes y cursos
-        studentService.save(estudianteaux);
+        studentService.updateStudent(estudianteaux);
         courseService.save(cursoaux);
 
         model.addAttribute("student", estudianteaux);
