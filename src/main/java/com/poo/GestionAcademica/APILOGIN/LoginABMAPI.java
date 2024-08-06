@@ -51,21 +51,26 @@ public class LoginABMAPI {
 
     }
 
-    public static void deletestudentbyid(Student student) {
+    public static int deletestudentbyid(Student student) {
+        try {
+            int id = student.getUserId();
 
-        int id = student.getUserId();
+            String url = "http://poo-dev.unsada.edu.ar:4000/sistema_abm/users/students/" + id;
 
-        String url = "http://poo-dev.unsada.edu.ar:4000/sistema_abm/users/students/" + id;
+            // Crear la entidad de la solicitud
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> request = new HttpEntity<>(headers);
 
-        // Crear la entidad de la solicitud
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> request = new HttpEntity<>(headers);
+            // Enviar la solicitud DELETE
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Integer> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Integer.class);
 
-        // Enviar la solicitud DELETE
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Integer> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Integer.class);
+            System.out.println(response.getBody());
+            return response.getBody();
 
-        System.out.println("eliminao");
+        } catch (Exception e) {
+            return 0;
+        }
 
     }
 }

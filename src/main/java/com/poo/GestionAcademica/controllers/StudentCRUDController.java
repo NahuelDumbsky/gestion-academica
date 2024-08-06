@@ -83,7 +83,8 @@ public class StudentCRUDController {
 
     @GetMapping("/estudiantes/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable("id") int id) {
-        loginABMAPI.deletestudentbyid(studentService.findById(id));
+        int code = loginABMAPI.deletestudentbyid(studentService.findById(id));
+        System.out.println(code);
         Student aux = studentService.findById(id);
         int idestudiante = aux.getStudentId();
         userStudentsService.deleteByStudentID(idestudiante);
